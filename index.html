@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hearts Animation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .page {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        #enter-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 40px;
+            font-size: 24px;
+            background-color: transparent;
+            border: 2px solid #ff1493;
+            color: #ff1493;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #enter-btn:hover {
+            background-color: #ff1493;
+            color: white;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float var(--float-duration, 4s) ease-in-out forwards;
+            pointer-events: none;
+        }
+
+        .heart.slow {
+            --float-duration: 7s;
+        }
+
+        .heart.medium {
+            --float-duration: 5.5s;
+        }
+
+        .heart.fast {
+            --float-duration: 4s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(1) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: var(--max-opacity, 0.4);
+            }
+            90% {
+                opacity: var(--max-opacity, 0.4);
+            }
+            100% {
+                transform: translateY(-50px) scale(0.3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: #fff8f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(255, 182, 193, 0.2);
+            z-index: 800;
+            overflow: hidden;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+
+        .player-content {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: linear-gradient(to right, #fff8f9, #ffe6ea);
+        }
+
+        .album-cover {
+            width: 56px;
+            height: 56px;
+            background: #000;
+            border-radius: 4px;
+            margin-right: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2);
+            position: relative;
+            border: 2px solid #ffccd5;
+            padding: 2px;
+            background: linear-gradient(45deg, #fff0f3, #ffe6ea);
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .album-cover:hover img {
+            transform: scale(1.05);
+        }
+
+        .song-info {
+            flex-grow: 1;
+        }
+
+        .song-title {
+            font-weight: 500;
+            margin: 0;
+            color: #ff6b8b;
+            font-size: 14px;
+        }
+
+        .artist {
+            color: #ff8fa3;
+            font-size: 12px;
+            margin: 4px 0 0 0;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px 12px;
+            background: #fff8f9;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: #ff8fa3;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: #ff6b8b;
+        }
+
+        .play-button {
+            font-size: 20px;
+            color: #ff6b8b;
+        }
+
+        .play-button:hover {
+            color: #ff4d76;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #ffe6ea;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #ff8fa3;
+            transition: width 0.1s linear;
+        }
+
+        .spotify-logo {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .time {
+            color: #ff8fa3;
+            font-size: 12px;
+            text-align: right;
+            padding: 0 12px 8px;
+            background: #fff8f9;
+        }
+
+        .control-button.active {
+            color: #ff4d76;
+        }
+
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff8f9;
+            padding: 15px 0;
+            box-shadow: 0 -2px 15px rgba(255, 182, 193, 0.2);
+            border-top: 1px solid rgba(255, 182, 193, 0.3);
+            z-index: 900;
+            display: none;
+        }
+
+        .page.active .navbar {
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #ff8fa3;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #ff6b8b;
+            background: rgba(255, 182, 193, 0.788);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #ff6b8b;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .nav-link.active {
+            color: #ff4d76;
+            font-weight: 500;
+        }
+
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        .popup-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7) rotate(-5deg);
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.808), rgba(255, 182, 193, 0.808));
+            border-radius: 30px;
+            box-shadow: 0 8px 40px rgba(255, 182, 193, 0.808);
+            border: 1px solid rgba(255, 182, 193, 0.808);
+            display: none;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .popup-container.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0);
+            animation: popupAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes popupAppear {
+            0% {
+                transform: translate(-50%, -50%) scale(0.7) rotate(-5deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(2deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-header {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, rgba(255, 228, 230, 0.95), rgba(255, 240, 245, 0.95));
+            border-bottom: 1px solid rgba(255, 182, 193, 0.3);
+            padding: 20px 30px;
+            z-index: 1;
+        }
+
+        .popup-title {
+            color: #ff8fa3;
+            font-size: 28px;
+            margin: 0;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.2);
+        }
+
+        .close-popup {
+            background: none;
+            border: none;
+            color: #ff8fa3;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-popup:hover {
+            color: #ff6b8b;
+            background: rgba(255, 182, 193, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .popup-content {
+            height: calc(80vh - 80px); /* Subtract header height */
+            overflow-y: auto;
+            padding: 30px;
+            color: #666;
+            line-height: 1.8;
+            font-size: 16px;
+            background: rgba(255, 240, 245, 0.5);
+        }
+
+        /* Custom scrollbar for the popup content */
+        .popup-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .popup-content::-webkit-scrollbar-track {
+            background: rgba(255, 182, 193, 0.2);
+            border-radius: 4px;
+        }
+
+        .popup-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 182, 193, 0.5);
+            border-radius: 4px;
+        }
+
+        .popup-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 182, 193, 0.7);
+        }
+
+        /* Letter-specific styling */
+        #letter-popup .popup-content {
+            font-family: 'Georgia', serif;
+            font-size: 18px;
+            line-height: 2;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            margin: 15px;
+        }
+
+        #letter-popup .popup-content p {
+            margin-bottom: 20px;
+        }
+
+        #letter-popup .popup-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Ensure the navbar stays on top */
+        .navbar {
+            z-index: 900;
+        }
+
+        .carousel-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .carousel-item {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%; /* Makes it square */
+            margin-bottom: 20px;
+        }
+
+        .carousel-item:nth-child(odd) {
+            margin-top: 50px; /* Creates the alternating pattern */
+        }
+
+        .carousel-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 8px solid #fff;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Frame decoration */
+        .carousel-item::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .carousel-item::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            border-radius: 15px;
+            z-index: -1;
+        }
+
+        /* Carousel-specific content styling */
+        #carousel-popup .popup-content {
+            background: linear-gradient(135deg, rgba(255, 240, 245, 0.8), rgba(255, 228, 230, 0.8));
+            padding: 20px;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+
+        .countdown-item {
+            text-align: center;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .countdown-item:not(:last-child)::after {
+            content: ':';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff8fa3;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .countdown-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff6b8b;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            color: #ff8fa3;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .countdown-title {
+            color: #ff6b8b;
+            font-size: 24px;
+            font-weight: 500;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.2);
+        }
+
+        /* Update the date popup content */
+        #date-popup .popup-content {
+            background: linear-gradient(135deg, rgba(255, 240, 245, 0.8), rgba(255, 228, 230, 0.8));
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: calc(80vh - 80px);
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="page active" id="page1">
+        <button id="enter-btn">Enter</button>
+    </div>
+
+    <div class="page" id="page2">
+        <div class="music-player">
+            <div class="player-content">
+                <div class="album-cover">
+                    <img src="https://i.scdn.co/image/ab67616d00001e0224f8c3ad20b7c6cfecb5832e" alt="Album Cover">
+                </div>
+                <div class="song-info">
+                    <h3 class="song-title">love.</h3>
+                    <p class="artist">wave to earth</p>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1982px-Spotify_icon.svg.png" alt="Spotify" class="spotify-logo">
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="controls">
+                <button class="control-button"><i class="fas fa-redo-alt"></i></button>
+                <button class="control-button"><i class="fas fa-step-backward"></i></button>
+                <button class="control-button play-button"><i class="fas fa-play"></i></button>
+                <button class="control-button"><i class="fas fa-step-forward"></i></button>
+                <button class="control-button"><i class="fas fa-heart"></i></button>
+            </div>
+            <div class="time">00:00</div>
+            <audio id="audio" src="C:\Users\AzTec\Documents\Porjects\adeline\wwd.mp3juice.blog - wave to earth - love. (Official Lyric Video) (320 KBps).mp3"></audio>
+        </div>
+        
+        <!-- Add popup containers -->
+        <div id="letter-popup" class="popup-container">
+            <div class="popup-header">
+                <h2 class="popup-title">very special letter fr</h2>
+                <button class="close-popup"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="popup-content">
+                <p>Dear [Name],</p>
+                
+                <p>Your letter content goes here. You can write multiple paragraphs, and they will be properly formatted with nice spacing.</p>
+                
+                <p>Each paragraph will be separated with proper spacing, and the text will be easy to read with the Georgia font.</p>
+                
+                <p>You can write as much as you want, and the container will scroll automatically.</p>
+                
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+                
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+                
+                <p>With love,<br>[Your Name]</p>
+            </div>
+        </div>
+
+        <div id="carousel-popup" class="popup-container">
+            <div class="popup-header">
+                <h2 class="popup-title">carousel</h2>
+                <button class="close-popup"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="popup-content">
+                <div class="carousel-grid">
+                    <div class="carousel-item">
+                        <img src="path/to/your/image1.jpg" alt="Memory 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="path/to/your/image2.jpg" alt="Memory 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="path/to/your/image3.jpg" alt="Memory 3">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="path/to/your/image4.jpg" alt="Memory 4">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="path/to/your/image5.jpg" alt="Memory 5">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="path/to/your/image6.jpg" alt="Memory 6">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="date-popup" class="popup-container">
+            <div class="popup-header">
+                <h2 class="popup-title">date</h2>
+                <button class="close-popup"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="popup-content">
+                <h3 class="countdown-title">Days Since Everything Felt Right</h3>
+                <div class="countdown-container">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">0</div>
+                        <div class="countdown-label">days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">0</div>
+                        <div class="countdown-label">hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">0</div>
+                        <div class="countdown-label">minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">0</div>
+                        <div class="countdown-label">seconds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar">
+            <div class="nav-links">
+                <a href="#" class="nav-link" data-popup="letter-popup">very special letter fr</a>
+                <a href="#" class="nav-link" data-popup="carousel-popup">carousel</a>
+                <a href="#" class="nav-link" data-popup="date-popup">date</a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const enterBtn = document.getElementById('enter-btn');
+        const hearts = ['❤', '💖', '💝', '💕', '💗', '💓', '💞', '💘'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            
+            // Random position with some spread
+            heart.style.left = Math.random() * 120 - 10 + 'vw';
+            
+            // Lower opacity range (0.15 to 0.4)
+            const maxOpacity = Math.random() * 0.25 + 0.15;
+            heart.style.setProperty('--max-opacity', maxOpacity);
+            
+            // Softer pink/red shades
+            const hue = Math.random() * 30 + 330; // 330-360 (pink to red)
+            const saturation = Math.random() * 30 + 70; // 70-100%
+            const lightness = Math.random() * 30 + 40; // 40-70%
+            heart.style.color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            
+            // Varied sizes (smaller to larger)
+            heart.style.fontSize = Math.random() * 50 + 8 + 'px';
+            
+            // Random heart emoji
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            
+            // Random animation speed with more variation
+            const speed = Math.random();
+            if (speed < 0.3) {
+                heart.classList.add('slow');
+            } else if (speed < 0.6) {
+                heart.classList.add('medium');
+            } else {
+                heart.classList.add('fast');
+            }
+            
+            page2.appendChild(heart);
+
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        function createHeartBurst() {
+            // Create more hearts at once
+            for (let i = 0; i < 5; i++) {
+                createHeart();
+            }
+        }
+
+        function startHeartAnimation() {
+            // Create larger initial burst of hearts
+            for (let i = 0; i < 50; i++) {
+                createHeart();
+            }
+            
+            // Create hearts more frequently
+            setInterval(createHeartBurst, 50); // Reduced interval to 50ms and creating 5 hearts each time
+        }
+
+        enterBtn.addEventListener('click', () => {
+            page1.classList.remove('active');
+            page2.classList.add('active');
+            startHeartAnimation();
+        });
+
+        // Add music player functionality
+        const audio = document.getElementById('audio');
+        const playButton = document.querySelector('.play-button');
+        const progress = document.getElementById('progress');
+        const timeDisplay = document.querySelector('.time');
+
+        playButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                audio.pause();
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = progressPercent + '%';
+            
+            const minutes = Math.floor(audio.currentTime / 60);
+            const seconds = Math.floor(audio.currentTime % 60);
+            timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        });
+
+        // Add popup functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const popups = document.querySelectorAll('.popup-container');
+        const closeButtons = document.querySelectorAll('.close-popup');
+
+        // Function to close all popups
+        function closeAllPopups() {
+            popups.forEach(popup => {
+                popup.classList.remove('active');
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+        }
+
+        // Add click handlers to nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const popupId = link.getAttribute('data-popup');
+                const popup = document.getElementById(popupId);
+                
+                closeAllPopups();
+                popup.classList.add('active');
+                link.classList.add('active');
+            });
+        });
+
+        // Add click handlers to close buttons
+        closeButtons.forEach(button => {
+            button.addEventListener('click', closeAllPopups);
+        });
+
+        // Close popup when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('popup-container')) {
+                closeAllPopups();
+            }
+        });
+
+        // Countdown timer functionality
+        function updateCountdown() {
+            const targetDate = new Date('2024-04-18T14:50:00');
+            const now = new Date();
+            const difference = now - targetDate;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+    </script>
+</body>
+</html>
