@@ -191,11 +191,7 @@
         }
 
         .spotify-logo {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 20px;
-            height: 20px;
+            display: none;
         }
 
         .time {
@@ -541,6 +537,18 @@
             min-height: calc(80vh - 80px);
             height: auto;
         }
+
+        .spotify-embed {
+            padding: 10px;
+            background: #fff8f9;
+            border-radius: 0 0 10px 10px;
+            margin-top: 10px;
+        }
+
+        .spotify-embed iframe {
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(255, 182, 193, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -558,7 +566,6 @@
                     <h3 class="song-title">love.</h3>
                     <p class="artist">wave to earth</p>
                 </div>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1982px-Spotify_icon.svg.png" alt="Spotify" class="spotify-logo">
             </div>
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
@@ -571,7 +578,16 @@
                 <button class="control-button"><i class="fas fa-heart"></i></button>
             </div>
             <div class="time">00:00</div>
-            <audio id="audio" src="wwd.mp3juice.blog - wave to earth - love. (Official Lyric Video) (320 KBps).mp3"></audio>
+            <div class="spotify-embed">
+                <iframe src="https://open.spotify.com/embed/track/5rDXfGMWI6S8wkXR0MHsvv?utm_source=generator" 
+                        width="100%" 
+                        height="80" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                </iframe>
+            </div>
         </div>
         
         <!-- Add popup containers -->
@@ -581,6 +597,13 @@
                 <button class="close-popup"><i class="fas fa-times"></i></button>
             </div>
             <div class="popup-content">
+                <p>Dear [Name],</p>
+                
+                <p>Your letter content goes here. You can write multiple paragraphs, and they will be properly formatted with nice spacing.</p>
+                
+                <p>Each paragraph will be separated with proper spacing, and the text will be easy to read with the Georgia font.</p>
+                
+                <p>You can write as much as you want, and the container will scroll automatically.</p>
                 
                 <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
 
@@ -594,11 +617,7 @@
                 
                 <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
                 
-                  <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
-
-                  <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
-
-                  <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+                <p>With love,<br>[Your Name]</p>
             </div>
         </div>
 
