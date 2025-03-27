@@ -31,18 +31,31 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 15px 40px;
-            font-size: 24px;
+            padding: 15px 50px;
+            font-size: 22px;
             background-color: transparent;
-            border: 2px solid #ff1493;
-            color: #ff1493;
+            border: 2px solid #ff8fa3;
+            color: #ff8fa3;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 30px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(255, 143, 163, 0.1);
         }
 
         #enter-btn:hover {
-            background-color: #ff1493;
+            background-color: #ff8fa3;
             color: white;
+            transform: translate(-50%, -52%);
+            box-shadow: 0 8px 25px rgba(255, 143, 163, 0.2);
+            letter-spacing: 4px;
+        }
+
+        #enter-btn:active {
+            transform: translate(-50%, -48%);
+            box-shadow: 0 2px 10px rgba(255, 143, 163, 0.1);
         }
 
         .heart {
@@ -409,20 +422,16 @@
 
         .carousel-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            padding: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding: 30px;
         }
 
         .carousel-item {
             position: relative;
             width: 100%;
-            padding-bottom: 100%; /* Makes it square */
-            margin-bottom: 20px;
-        }
-
-        .carousel-item:nth-child(odd) {
-            margin-top: 50px; /* Creates the alternating pattern */
+            padding-bottom: 100%;
+            margin-bottom: 40px;
         }
 
         .carousel-item img {
@@ -432,10 +441,25 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 15px;
-            border: 8px solid #fff;
-            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            border-radius: 20px;
+            border: 10px solid #fff;
+            box-shadow: 0 4px 20px rgba(255, 182, 193, 0.3);
             transition: transform 0.3s ease;
+        }
+
+        .carousel-date {
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff8fa3;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(255, 182, 193, 0.2);
         }
 
         .carousel-item:hover img {
@@ -550,175 +574,67 @@
             box-shadow: 0 2px 15px rgba(255, 182, 193, 0.2);
         }
 
-        /* Mobile Responsive Styles */
-        @media screen and (max-width: 768px) {
-            .music-player {
-                width: 90%;
-                top: 10px;
-                right: 5%;
-            }
-
-            .player-content {
-                padding: 8px;
-            }
-
-            .album-cover {
-                width: 48px;
-                height: 48px;
-            }
-
-            .song-title {
-                font-size: 13px;
-            }
-
-            .artist {
-                font-size: 11px;
-            }
-
-            .control-button {
-                font-size: 14px;
-                padding: 6px;
-            }
-
-            .play-button {
-                font-size: 18px;
-            }
-
-            .time {
-                font-size: 11px;
-                padding: 0 8px 6px;
-            }
-
-            .spotify-embed {
-                padding: 8px;
-            }
-
-            .spotify-embed iframe {
-                height: 60px;
-            }
-
-            .popup-container {
-                width: 95%;
-                height: 90vh;
-            }
-
-            .popup-header {
-                padding: 15px 20px;
-            }
-
-            .popup-title {
-                font-size: 24px;
-            }
-
-            .close-popup {
-                font-size: 20px;
-                width: 35px;
-                height: 35px;
-            }
-
-            .popup-content {
-                padding: 20px;
-                height: calc(90vh - 70px);
-            }
-
-            .carousel-grid {
-                gap: 15px;
-                padding: 10px;
-            }
-
-            .carousel-item:nth-child(odd) {
-                margin-top: 30px;
-            }
-
-            .countdown-container {
-                padding: 20px;
-                gap: 10px;
-            }
-
-            .countdown-number {
-                font-size: 36px;
-            }
-
-            .countdown-label {
-                font-size: 12px;
-            }
-
-            .countdown-title {
-                font-size: 20px;
-                margin: 15px 0;
-            }
-
-            .navbar {
-                padding: 10px 0;
-            }
-
-            .nav-links {
-                gap: 20px;
-            }
-
-            .nav-link {
-                font-size: 14px;
-                padding: 6px 12px;
-            }
-
-            #enter-btn {
-                padding: 12px 30px;
-                font-size: 20px;
-            }
+        /* Add styles for the play-me-container */
+        .play-me-container {
+            position: fixed;
+            top: 40px;
+            right: 330px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 800;
         }
 
-        /* Additional mobile optimizations */
-        @media screen and (max-width: 480px) {
-            .music-player {
-                width: 95%;
-            }
+        .heart-arrow {
+            width: 60px;
+            height: 30px;
+        }
 
-            .popup-container {
-                width: 100%;
-                height: 95vh;
-            }
+        .play-me-text {
+            color: #ff8fa3;
+            font-size: 16px;
+            font-weight: 500;
+        }
 
-            .carousel-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
+        .bottom-text {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: #ff8fa3;
+            font-size: 12px;
+            text-align: right;
+        }
 
-            .carousel-item:nth-child(odd) {
-                margin-top: 0;
-            }
-
-            .countdown-container {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .countdown-item {
-                padding: 0 10px;
-            }
-
-            .countdown-number {
-                font-size: 32px;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .nav-link {
-                width: 80%;
-                text-align: center;
-            }
+        .mobile-warning {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff8fa3;
+            font-size: 16px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="page active" id="page1">
         <button id="enter-btn">Enter</button>
+        <p class="mobile-warning">open on laptop, gabisa hp hehe :)</p>
+        <p class="bottom-text">abi 3/27/25</p>
     </div>
 
     <div class="page" id="page2">
+        <div class="play-me-container">
+            <p class="play-me-text">play me first!</p>
+            <svg class="heart-arrow" viewBox="0 0 100 50">
+                <path d="M35,25 C35,15 45,15 50,25 C55,15 65,15 65,25 C65,35 50,40 50,40 C50,40 35,35 35,25 Z" 
+                      fill="#ff8fa3"/>
+                <path d="M10,25 L90,25 M85,20 L90,25 L85,30" 
+                      stroke="#ff8fa3" 
+                      stroke-width="2" 
+                      fill="none"/>
+            </svg>
+        </div>
         <div class="music-player">
             <div class="player-content">
                 <div class="album-cover">
@@ -740,6 +656,7 @@
                 <button class="control-button"><i class="fas fa-heart"></i></button>
             </div>
             <div class="time">00:00</div>
+            <audio id="audio" src="C:\Users\AzTec\Documents\Porjects\adeline\wwd.mp3juice.blog - wave to earth - love. (Official Lyric Video) (320 KBps).mp3"></audio>
             <div class="spotify-embed">
                 <iframe src="https://open.spotify.com/embed/track/5rDXfGMWI6S8wkXR0MHsvv?utm_source=generator" 
                         width="100%" 
@@ -759,13 +676,19 @@
                 <button class="close-popup"><i class="fas fa-times"></i></button>
             </div>
             <div class="popup-content">
-                <p>Dear [Name],</p>
-                
-                <p>Your letter content goes here. You can write multiple paragraphs, and they will be properly formatted with nice spacing.</p>
-                
-                <p>Each paragraph will be separated with proper spacing, and the text will be easy to read with the Georgia font.</p>
-                
-                <p>You can write as much as you want, and the container will scroll automatically.</p>
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
+
+                <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
                 
                 <p> asjndksasadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda</p>
 
@@ -791,23 +714,214 @@
             <div class="popup-content">
                 <div class="carousel-grid">
                     <div class="carousel-item">
-                        <img src="path/to/your/image1.jpg" alt="Memory 1">
+                        <img src="images/A/IMG-20241121-WA0010.jpeg" alt="Memory 1">
+                        <div class="carousel-date">November 21, 2024</div>
                     </div>
                     <div class="carousel-item">
-                        <img src="path/to/your/image2.jpg" alt="Memory 2">
+                        <img src="images/A/IMG-20241124-WA0100.jpg" alt="Memory 2">
+                        <div class="carousel-date">November 24, 2024</div>
                     </div>
                     <div class="carousel-item">
-                        <img src="path/to/your/image3.jpg" alt="Memory 3">
+                        <img src="images/A/IMG-20241222-WA0018.jpg" alt="Memory 3">
+                        <div class="carousel-date">December 22, 2024</div>
                     </div>
                     <div class="carousel-item">
-                        <img src="path/to/your/image4.jpg" alt="Memory 4">
+                        <img src="images/A/IMG-20250114-WA0001.jpg" alt="Memory 4">
+                        <div class="carousel-date">January 14, 2025</div>
                     </div>
                     <div class="carousel-item">
-                        <img src="path/to/your/image5.jpg" alt="Memory 5">
+                        <img src="images/A/IMG-20250114-WA0002.jpg" alt="Memory 5">
+                        <div class="carousel-date">January 14, 2025</div>
                     </div>
                     <div class="carousel-item">
-                        <img src="path/to/your/image6.jpg" alt="Memory 6">
+                        <img src="images/A/IMG-20250131-WA0014.jpg" alt="Memory 6">
+                        <div class="carousel-date">January 31, 2025</div>
                     </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20250131-WA0025.jpg" alt="Memory 7">
+                        <div class="carousel-date">January 31, 2025</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20250131-WA0026.jpg" alt="Memory 8">
+                        <div class="carousel-date">January 31, 2025</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20250312-WA0002.jpg" alt="Memory 9">
+                        <div class="carousel-date">March 12, 2025</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-263837635.jpg" alt="Memory 10">
+                        <div class="carousel-date">March 20, 2025</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-285070965.jpg" alt="Memory 11">
+                        <div class="carousel-date">March 12, 2025</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-208754949.jpg" alt="Memory 12">
+                        <div class="carousel-date">January 14, 2025</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG_20250114_093125.jpg" alt="Memory 13">
+                        <div class="carousel-date">January 14, 2025</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-462865241.jpg" alt="Memory 14">
+                        <div class="carousel-date">November 29, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-1169004170.jpg" alt="Memory 15">
+                        <div class="carousel-date">November 22, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20241119-WA0023.jpeg" alt="Memory 16">
+                        <div class="carousel-date">November 19, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-1954832545.jpg" alt="Memory 17">
+                        <div class="carousel-date">November 6, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-282810035.jpg" alt="Memory 18">
+                        <div class="carousel-date">November 4, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-74842257.jpg" alt="Memory 19">
+                        <div class="carousel-date">November 4, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-2242166.jpg" alt="Memory 20">
+                        <div class="carousel-date">October 25, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-2051803158.jpg" alt="Memory 21">
+                        <div class="carousel-date">October 25, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-2051989325.jpg" alt="Memory 22">
+                        <div class="carousel-date">October 23, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-257488492.jpg" alt="Memory 23">
+                        <div class="carousel-date">October 23, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-2104637744.jpg" alt="Memory 24">
+                        <div class="carousel-date">October 22, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-1267133778.jpg" alt="Memory 25">
+                        <div class="carousel-date">October 21, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-270490978.jpg" alt="Memory 26">
+                        <div class="carousel-date">October 11, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20241010-WA0007.jpg" alt="Memory 27">
+                        <div class="carousel-date">October 10, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Screenshot_2024-10-09-19-27-38-524_com.miui.videoplayer.jpg" alt="Memory 28">
+                        <div class="carousel-date">October 9, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-998282104.jpg" alt="Memory 29">
+                        <div class="carousel-date">October 9, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20241002-WA0016.jpg" alt="Memory 30">
+                        <div class="carousel-date">October 2, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-491017083.jpg" alt="Memory 31">
+                        <div class="carousel-date">October 1, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/DSCF0912.JPG" alt="Memory 32">
+                        <div class="carousel-date">September 28, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/DSCF0890.JPG" alt="Memory 33">
+                        <div class="carousel-date">September 27, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/DSCF0888.JPG" alt="Memory 34">
+                        <div class="carousel-date">September 27, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/DSCF0889.JPG" alt="Memory 35">
+                        <div class="carousel-date">September 27, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-942937925.jpg" alt="Memory 36">
+                        <div class="carousel-date">September 27, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Screenshot_2024-09-19-15-10-30-224_com.instagram.android.jpg" alt="Memory 37">
+                        <div class="carousel-date">September 19, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG_20240918_194938.jpg" alt="Memory 38">
+                        <div class="carousel-date">September 18, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG_20240918_194915.jpg" alt="Memory 39">
+                        <div class="carousel-date">September 18, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-226829323.jpg" alt="Memory 40">
+                        <div class="carousel-date">September 13, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-1882897594.jpg" alt="Memory 41">
+                        <div class="carousel-date">September 13, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-851129934.jpg" alt="Memory 42">
+                        <div class="carousel-date">September 5, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20240823-WA0000.jpg" alt="Memory 43">
+                        <div class="carousel-date">August 23, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Screenshot_2024-08-22-14-03-07-899_com.instagram.android.jpg" alt="Memory 44">
+                        <div class="carousel-date">August 22, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20240820-WA0000.jpeg" alt="Memory 45">
+                        <div class="carousel-date">August 20, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20240816-WA0006.jpg" alt="Memory 46">
+                        <div class="carousel-date">August 16, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Snapchat-1280735215.jpg" alt="Memory 47">
+                        <div class="carousel-date">August 11, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/f742a8bca35a41b2d111658b4201a381.jpg" alt="Memory 48">
+                        <div class="carousel-date">June 20, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20240619-WA0018.jpg" alt="Memory 49">
+                        <div class="carousel-date">June 19, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20240619-WA0015.jpg" alt="Memory 50">
+                        <div class="carousel-date">June 19, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/IMG-20240605-WA0033.jpg" alt="Memory 51">
+                        <div class="carousel-date">June 5, 2024</div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/A/Screenshot_2024-05-31-16-43-04-447_com.whatsapp.jpg" alt="Memory 52">
+                        <div class="carousel-date">May 31, 2024</div>
+                    </div>
+            
                 </div>
             </div>
         </div>
