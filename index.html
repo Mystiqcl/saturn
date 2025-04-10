@@ -421,11 +421,14 @@
         }
 
         .carousel-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            padding: 30px;
-        }
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding: 30px;
+    max-height: 600px; /* or however tall you want */
+    overflow-y: auto;
+}
+
 
         .carousel-item {
             position: relative;
